@@ -3,24 +3,6 @@ import Base: +, -, *, /, ^, ==
 struct ComplexNumber
     a
     b
-    # -::function (c,d)
-        
-    # end
-    # *::function (c,d)
-        
-    # end
-    # /::function (c,d)
-        
-    # end
-    # Conjugate::function ()
-        
-    # end
-    # Abs::function ()
-        
-    # end
-    # Exponent::function ()
-        
-    # end
     ComplexNumber(a,b) = new(a,b)
 end
 
@@ -33,3 +15,22 @@ end
 function *(C::ComplexNumber, D::ComplexNumber)
     return ComplexNumber(C.a*D.a  - C.b*D.b, C.b*D.a + C.a*D.b)
 end
+function abs(C::ComplexNumber)
+    return (C.a^2 + C.b^2)^(1/2)
+end
+#(a + i * b) / (c + i * d) = (a * c + b * d)/(c^2 + d^2) + (b * c - a * d)/(c^2 + d^2) * i`
+function /(C::ComplexNumber, D::ComplexNumber)
+    return ComplexNumber((C.a * D.a + C.b * D.b)/(abs(D)^2), (C.b*D.a - C.a*D.b)/(abs(D)^2))
+end 
+function conj(C::ComplexNumber)
+    return ComplexNumber(C.a, -C.b)
+end
+function real(C::ComplexNumber)
+    return C.a
+end
+function imag(C::ComplexNumber)
+    return C.b
+end
+function exp(C::ComplexNumber)
+    return ComplexNumber(Base.MathConstants.e^(C.a), 0)*ComplexNumber(cos(C.a), sin(C.b))
+end 
